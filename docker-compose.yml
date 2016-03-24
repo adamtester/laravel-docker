@@ -1,0 +1,26 @@
+web:
+  restart: always
+  build: .
+  volumes:
+    - ".:/code"
+  ports:
+    - "80:80"
+  links:
+    - mysql
+    - redis
+  environment:
+    - LARAVEL_ENV=local
+    - REDIS_HOST=redis
+
+mysql:
+  image: mysql:5.7
+  ports:
+    - "3306:3306"
+  env_file: ./app/.env
+  environment:
+    - MYSQL_ROOT_PASSWORD=SomePassword
+
+redis:
+  image: redis:2.8
+  ports:
+    - "6379:6379"
