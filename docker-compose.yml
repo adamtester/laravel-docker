@@ -1,10 +1,38 @@
 web:
   restart: always
+  ports:
+    - "32542:32542"
   build: .
   volumes:
     - ".:/code"
-  ports:
-    - "80:80"
+  entrypoint: /code/start-web.sh
+  links:
+    - mysql
+    - redis
+  environment:
+    - LARAVEL_ENV=local
+    - REDIS_HOST=redis
+    - VIRTUAL_HOST=laravel.example.com
+
+worker:
+  restart: always
+  build: .
+  volumes:
+    - ".:/code"
+  entrypoint: /code/start-worker.sh
+  links:
+    - mysql
+    - redis
+  environment:
+    - LARAVEL_ENV=local
+    - REDIS_HOST=redis
+
+cron:
+  restart: always
+  build: .
+  volumes:
+    - ".:/code"
+  entrypoint: /code/start-cron.sh
   links:
     - mysql
     - redis
