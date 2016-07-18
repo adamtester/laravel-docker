@@ -27,6 +27,8 @@ RUN sed -i "s/;date.timezone =/date.timezone = Europe\/London/" $PHP_INI
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+COPY . /code
+
 WORKDIR /code/app
 
 RUN useradd -d /code/app -u 1000 www && \
