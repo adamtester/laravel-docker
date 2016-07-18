@@ -31,6 +31,8 @@ COPY . /code
 
 WORKDIR /code/app
 
+RUN composer install --no-interaction --no-dev --prefer-dist
+
 RUN useradd -d /code/app -u 1000 www && \
     sed -i 's/www-data/www/g' /etc/nginx/nginx.conf && \
     sed -i "s/www-data/www/g" /etc/php/7.0/fpm/pool.d/www.conf && \
